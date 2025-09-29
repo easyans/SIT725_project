@@ -13,13 +13,15 @@
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <!-- Auth System -->
+    <script src="auth.js"></script>
 </head>
 <body>
     <!-- Dynamic Navbar with Auth State -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-deakin">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="assets/deakin-logo.jpg" alt="Deakin" height="40">
+                <img src="deakin-logo.jpg" alt="Deakin" height="40">
                 <span class="ms-2 fw-bold">DeakinPay</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -47,7 +49,7 @@
                         <a class="nav-link" href="support.html" target="_blank"><i class="fas fa-question-circle me-1"></i> Support</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a href="login.html" class="btn btn-outline-light btn-lg px-4 portal-btn">
+                        <a href="login.html" class="btn btn-outline-light btn-lg px-4 portal-btn" id="loginBtn">
                             <i class="fas fa-sign-in-alt me-2"></i> Student Login
                         </a>                    
                     </li>
@@ -55,134 +57,138 @@
             </div>
         </div>
     </nav>
+
     <!-- Login Required Modal -->
-<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Login Required</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>You need to login to view your payment history.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="login.html" class="btn btn-primary">Go to Login</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Hero Section with 3D Globe -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <!-- Added Deakin intro badge -->
-                <div class="deakin-intro-badge">
-                    <span>DEAKIN UNIVERSITY</span>
-                    <i class="fas fa-graduation-cap"></i>
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <h1 class="display-4 fw-bold mb-4">Smart Fee Management <span class="highlight-text">for Global Students</span></h1>
-                 <!-- Added animated subtitle -->
-                <p class="lead mb-4 intro-subtitle">
-                    <span class="typing-text">Secure payments. Worldwide access. Deakin excellence.</span>
-                </p>
- <!-- Added Deakin trust indicators -->
-                <div class="trust-indicators">
-                    <div class="trust-item security">
-                      <i class="fas fa-shield-alt"></i>
-                      <span>Bank-Level Security</span>
-                    </div>
-                    <div class="trust-item countries">
-                      <i class="fas fa-globe"></i>
-                      <span>120+ Countries Supported</span>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-6 d-none d-lg-block">
-                <!-- Globe remains here -->
-            </div>
-        </div>
-    </div>
-</section>
- <!-- Crazy Banner with iPhone Animation -->
- <section class="crazy-banner">
-    <div class="container h-100">
-        <div class="banner-content h-100">
-            <div class="banner-text">
-                <h1 class="banner-title">
-                    <span class="title-word title-word-1">DEAKIN</span>
-                    <span class="title-word title-word-2">PAY</span>
-                    <span class="title-word title-word-3">REVOLUTION</span>
-                </h1>
-                <p class="banner-subtitle">The Future of Student Payments is Here</p>
-            </div>
-            <!-- iPhone Animation Container -->
-            <div class="floating-iphone">
-                <div class="iphone-frame">
-                    <!-- Dynamic Island -->
-                    <div class="dynamic-island"></div>
-                     <!-- Screen Content -->
-                    <div class="screen lock-screen active">
-                        <div class="status-bar">
-                            <span class="time">9:41</span>
-                            <div class="status-icons">
-                                <i class="fas fa-signal"></i>
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-battery-full"></i>
-                            </div>
-                        </div>
-                        <div class="lock-content">
-                            <div class="date">Tuesday, May 15</div>
-                            <div class="lock-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div class="pay-prompt">
-                                <span>DeakinPay</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="screen payment-screen">
-                        <div class="status-bar">
-                            <span class="time">9:41</span>
-                            <div class="status-icons">
-                                <i class="fas fa-signal"></i>
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-battery-full"></i>
-                            </div>
-                        </div>
-                        <div class="payment-amount">$7,200.00</div>
-                        <div class="payment-description">Trimester 1 Fees</div>
-                        <div class="pay-button">
-                            Pay with Face ID
-                        </div>
-                    </div>
-                    <div class="screen success-screen">
-                        <div class="success-icon">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="success-message">Payment Complete</div>
-                        <div class="success-amount">$7,200.00</div>
-                    </div>
-                    <!-- Home Indicator -->
-                    <div class="home-indicator"></div>
+                <div class="modal-body">
+                    <p>You need to login to view your payment history.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="login.html" class="btn btn-primary">Go to Login</a>
                 </div>
             </div>
         </div>
     </div>
-     <!-- Animated Background Elements -->
-    <div class="banner-bg-elements">
-        <div class="coin coin-1"></div>
-        <div class="coin coin-2"></div>
-        <div class="coin coin-3"></div>
-        <div class="money-bill bill-1"></div>
-        <div class="money-bill bill-2"></div>
-        <div class="pulse-circle pulse-1"></div>
-        <div class="pulse-circle pulse-2"></div>
-    </div>
-</section>
-<!-- Features Cards with Hover Effects -->
+
+    <!-- Hero Section with 3D Globe -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <!-- Added Deakin intro badge -->
+                    <div class="deakin-intro-badge">
+                        <span>DEAKIN UNIVERSITY</span>
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-4">Smart Fee Management <span class="highlight-text">for Global Students</span></h1>
+                    <!-- Added animated subtitle -->
+                    <p class="lead mb-4 intro-subtitle">
+                        <span class="typing-text">Secure payments. Worldwide access. Deakin excellence.</span>
+                    </p>
+                    <!-- Added Deakin trust indicators -->
+                    <div class="trust-indicators">
+                        <div class="trust-item security">
+                          <i class="fas fa-shield-alt"></i>
+                          <span>Bank-Level Security</span>
+                        </div>
+                        <div class="trust-item countries">
+                          <i class="fas fa-globe"></i>
+                          <span>120+ Countries Supported</span>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <!-- Globe remains here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crazy Banner with iPhone Animation -->
+    <section class="crazy-banner">
+        <div class="container h-100">
+            <div class="banner-content h-100">
+                <div class="banner-text">
+                    <h1 class="banner-title">
+                        <span class="title-word title-word-1">DEAKIN</span>
+                        <span class="title-word title-word-2">PAY</span>
+                        <span class="title-word title-word-3">REVOLUTION</span>
+                    </h1>
+                    <p class="banner-subtitle">The Future of Student Payments is Here</p>
+                </div>
+                <!-- iPhone Animation Container -->
+                <div class="floating-iphone">
+                    <div class="iphone-frame">
+                        <!-- Dynamic Island -->
+                        <div class="dynamic-island"></div>
+                        <!-- Screen Content -->
+                        <div class="screen lock-screen active">
+                            <div class="status-bar">
+                                <span class="time">9:41</span>
+                                <div class="status-icons">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="lock-content">
+                                <div class="date">Tuesday, May 15</div>
+                                <div class="lock-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="pay-prompt">
+                                    <span>DeakinPay</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="screen payment-screen">
+                            <div class="status-bar">
+                                <span class="time">9:41</span>
+                                <div class="status-icons">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="payment-amount">$7,200.00</div>
+                            <div class="payment-description">Trimester 1 Fees</div>
+                            <div class="pay-button">
+                                Pay with Face ID
+                            </div>
+                        </div>
+                        <div class="screen success-screen">
+                            <div class="success-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="success-message">Payment Complete</div>
+                            <div class="success-amount">$7,200.00</div>
+                        </div>
+                        <!-- Home Indicator -->
+                        <div class="home-indicator"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Animated Background Elements -->
+        <div class="banner-bg-elements">
+            <div class="coin coin-1"></div>
+            <div class="coin coin-2"></div>
+            <div class="coin coin-3"></div>
+            <div class="money-bill bill-1"></div>
+            <div class="money-bill bill-2"></div>
+            <div class="pulse-circle pulse-1"></div>
+            <div class="pulse-circle pulse-2"></div>
+        </div>
+    </section>
+
+    <!-- Features Cards with Hover Effects -->
     <section class="features-section py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
@@ -233,7 +239,8 @@
             </div>
         </div>
     </section>
-<!-- Fee Estimator Section -->
+
+    <!-- Fee Estimator Section -->
     <section id="course-estimator" class="course-estimator py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-5"><i class="fas fa-calculator me-2"></i>Course Fee Estimator</h2>
@@ -282,7 +289,7 @@
                     </div>
                 </div>
             </div>
-        <!-- Calculator Panel -->
+            <!-- Calculator Panel -->
             <div class="calculator-panel shadow-lg">
                 <div class="row g-0">
                     <!-- Input Controls -->
@@ -357,205 +364,1285 @@
             </div>
         </div>
     </section>
-        <!-- Innovative Feedback Section -->
-        <section class="feedback-section py-5 position-relative overflow-hidden">
-            <div class="container position-relative z-2">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <!-- Animated Card -->
-                        <div class="feedback-card bg-white rounded-4 shadow-lg position-relative overflow-hidden">
-                            <!-- Floating background elements -->
-                            <div class="feedback-bubble bubble-1"></div>
-                            <div class="feedback-bubble bubble-2"></div>
-                            <div class="feedback-bubble bubble-3"></div>
-                            <div class="card-header bg-transparent border-0 py-4 px-4">
-                                <h3 class="mb-0 text-center">
-                                    <span class="feedback-title-word">Share</span>
-                                    <span class="feedback-title-word">Your</span>
-                                    <span class="feedback-title-word">Thoughts</span>
-                                </h3>
-                                <p class="text-center text-muted mb-0">We value your feedback</p>
-                            </div>
-                            <div class="card-body p-4">
-                                <form id="innovativeFeedbackForm">
-                                    <!-- Interactive form fields -->
-                                    <div class="form-field mb-4" data-field="name">
-                                        <label class="form-label">Your Name</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" class="form-control" required>
-                                            <div class="field-progress"></div>
-                                        </div>
+
+    <!-- Innovative Feedback Section -->
+    <section class="feedback-section py-5 position-relative overflow-hidden">
+        <div class="container position-relative z-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Animated Card -->
+                    <div class="feedback-card bg-white rounded-4 shadow-lg position-relative overflow-hidden">
+                        <!-- Floating background elements -->
+                        <div class="feedback-bubble bubble-1"></div>
+                        <div class="feedback-bubble bubble-2"></div>
+                        <div class="feedback-bubble bubble-3"></div>
+                        <div class="card-header bg-transparent border-0 py-4 px-4">
+                            <h3 class="mb-0 text-center">
+                                <span class="feedback-title-word">Share</span>
+                                <span class="feedback-title-word">Your</span>
+                                <span class="feedback-title-word">Thoughts</span>
+                            </h3>
+                            <p class="text-center text-muted mb-0">We value your feedback</p>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="innovativeFeedbackForm">
+                                <!-- Interactive form fields -->
+                                <div class="form-field mb-4" data-field="name">
+                                    <label class="form-label">Your Name</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form-control" id="feedbackName" required>
+                                        <div class="field-progress"></div>
                                     </div>
-                                    <div class="form-field mb-4" data-field="email">
-                                        <label class="form-label">Email Address</label>
-                                        <div class="input-wrapper">
-                                            <input type="email" class="form-control" required>
-                                            <div class="field-progress"></div>
-                                        </div>
+                                </div>
+                                <div class="form-field mb-4" data-field="email">
+                                    <label class="form-label">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <input type="email" class="form-control" id="feedbackEmail" required>
+                                        <div class="field-progress"></div>
                                     </div>
-                                    <div class="form-field mb-4" data-field="subject">
-                                        <label class="form-label">Subject</label>
-                                        <div class="input-wrapper">
-                                            <input type="text" class="form-control" required>
-                                            <div class="field-progress"></div>
-                                        </div>
+                                </div>
+                                <div class="form-field mb-4" data-field="subject">
+                                    <label class="form-label">Subject</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form-control" id="feedbackSubject" required>
+                                        <div class="field-progress"></div>
                                     </div>
-                                    <div class="form-field mb-4" data-field="message">
-                                        <label class="form-label">Your Message</label>
-                                        <div class="input-wrapper">
-                                            <textarea class="form-control" rows="4" required></textarea>
-                                            <div class="field-progress"></div>
-                                            <div class="char-counter"><span>0</span>/500</div>
-                                        </div>
+                                </div>
+                                <div class="form-field mb-4" data-field="message">
+                                    <label class="form-label">Your Message</label>
+                                    <div class="input-wrapper">
+                                        <textarea class="form-control" id="feedbackMessage" rows="4" required></textarea>
+                                        <div class="field-progress"></div>
+                                        <div class="char-counter"><span id="charCount">0</span>/500</div>
                                     </div>
-                                    <!-- Interactive toggle -->
-                                    <div class="response-toggle mb-4">
-                                        <input type="checkbox" id="innovativeResponseCheck" checked>
-                                        <label for="innovativeResponseCheck">
-                                            <div class="toggle-switch"></div>
-                                            <span>I'd like to receive a response</span>
-                                        </label>
-                                    </div>
-                                    <!-- Animated submit button -->
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-feedback-submit px-5 py-3">
-                                            <span class="btn-text">Send Message</span>
-                                            <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
-                                            <span class="btn-confetti"></span>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                                <!-- Interactive toggle -->
+                                <div class="response-toggle mb-4">
+                                    <input type="checkbox" id="innovativeResponseCheck" checked>
+                                    <label for="innovativeResponseCheck">
+                                        <div class="toggle-switch"></div>
+                                        <span>I'd like to receive a response</span>
+                                    </label>
+                                </div>
+                                <!-- Animated submit button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-feedback-submit px-5 py-3">
+                                        <span class="btn-text">Send Message</span>
+                                        <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                                        <span class="btn-confetti"></span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Floating decorative elements -->
-            <div class="feedback-float-icon float-icon-1"><i class="fas fa-comment"></i></div>
-            <div class="feedback-float-icon float-icon-2"><i class="fas fa-lightbulb"></i></div>
-            <div class="feedback-float-icon float-icon-3"><i class="fas fa-question"></i></div>
-        </section>
-        <!-- Success Animation -->
-        <div class="feedback-success-modal">
-            <div class="success-content text-center">
-                <div class="success-icon">
-                    <svg viewBox="0 0 100 100">
-                        <path class="checkmark" fill="none" stroke="#00A3E1" stroke-width="8" 
-                              stroke-linecap="round" d="M20,50 L40,70 L80,30"/>
-                    </svg>
+        </div>
+        <!-- Floating decorative elements -->
+        <div class="feedback-float-icon float-icon-1"><i class="fas fa-comment"></i></div>
+        <div class="feedback-float-icon float-icon-2"><i class="fas fa-lightbulb"></i></div>
+        <div class="feedback-float-icon float-icon-3"><i class="fas fa-question"></i></div>
+    </section>
+
+    <!-- Success Animation -->
+    <div class="feedback-success-modal">
+        <div class="success-content text-center">
+            <div class="success-icon">
+                <svg viewBox="0 0 100 100">
+                    <path class="checkmark" fill="none" stroke="#00A3E1" stroke-width="8" 
+                          stroke-linecap="round" d="M20,50 L40,70 L80,30"/>
+                </svg>
+            </div>
+            <h3>Thank You!</h3>
+            <p>Your feedback has been received</p>
+            <button class="btn btn-outline-primary mt-3" onclick="closeFeedbackSuccess()">Close</button>
+        </div>
+    </div>
+
+    <!-- Innovative Contact Section -->
+    <section class="contact-section py-4" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <div class="contact-card-wrapper position-relative">
+                <!-- Floating contact elements -->
+                <div class="floating-contact-icon" style="top: -20px; left: 5%; animation-delay: 0s;">
+                    <i class="fas fa-map-marker-alt"></i>
                 </div>
-                <h3>Thank You!</h3>
-                <p>Your feedback has been received</p>
-                <button class="btn btn-outline-primary mt-3">Close</button>
+                <div class="floating-contact-icon" style="top: 30%; right: 8%; animation-delay: 0.3s;">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="floating-contact-icon" style="bottom: 10%; left: 15%; animation-delay: 0.6s;">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-card bg-white p-4 rounded-3 shadow-sm position-relative overflow-hidden">
+                    <!-- Animated border effect -->
+                    <div class="contact-border-animation"></div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="contact-method h-100 p-3 rounded-2" onclick="window.open('https://maps.app.goo.gl/Nbs2eTmn3ZYMGaLi8?g_st=com.google.maps.preview.copy')">
+                                <div class="icon-wrapper bg-danger bg-opacity-10 text-danger mb-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-2">Campus Location</h4>
+                                <p class="small mb-1">Deakin University</p>
+                                <p class="small">221 Burwood Hwy, VIC 3125</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-danger bg-opacity-10 text-danger">Click to open map</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='tel:+61392446333'">
+                                <div class="icon-wrapper bg-primary bg-opacity-10 text-primary mb-3">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <h4 class="h6 mb-2">Contact Us</h4>
+                                <p class="small mb-1">+61 3 9244 6333</p>
+                                <p class="small">Emergency: 1800 062 579</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">Click to call</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='mailto:deakinpay@deakin.edu.au'">
+                                <div class="icon-wrapper bg-success bg-opacity-10 text-success mb-3">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <h4 class="h6 mb-2">Email Support</h4>
+                                <p class="small mb-1">deakinpay@deakin.edu.au</p>
+                                <p class="small">24/7 support</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-success bg-opacity-10 text-success">Click to email</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="working-hours mt-4 pt-3 border-top text-center">
+                        <p class="mb-1"><strong>Working Hours:</strong> Mon-Fri 8:30am-5pm | Sat 10am-2pm</p>
+                        <p class="small text-muted">Closed on Sundays and public holidays</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <script>
-            // Interactive form functionality
-            document.querySelectorAll('.form-field input, .form-field textarea').forEach(el => {
-                el.addEventListener('focus', function() {
-                    this.parentElement.parentElement.classList.add('active');
-                });
-                el.addEventListener('blur', function() {
-                    if(!this.value) {
-                        this.parentElement.parentElement.classList.remove('active');
-                    }
-                });
-                // For textarea character counter
-                if(el.tagName === 'TEXTAREA') {
-                    el.addEventListener('input', function() {
-                        const counter = this.parentElement.querySelector('.char-counter span');
-                        counter.textContent = this.value.length;
-                        // Update progress
-                        const progress = this.parentElement.querySelector('.field-progress');
-                        progress.style.width = `${Math.min(this.value.length / 500 * 100, 100)}%`;
+    </section>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Globe Animation JS -->
+    <script src="globe.js"></script>
+
+    <script>
+        // Enhanced Feedback Database System with API Integration
+        const feedbackDatabase = {
+            // Save feedback to API
+            saveFeedback: async function(feedbackData) {
+                try {
+                    console.log('Saving feedback to API:', feedbackData);
+                    const response = await fetch('/api/feedback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(feedbackData)
                     });
+                    
+                    if (!response.ok) {
+                        throw new Error('API response not ok');
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Feedback saved successfully:', data);
+                    return data.id;
+                } catch (error) {
+                    console.error('API error, using localStorage fallback:', error);
+                    // Fallback to localStorage
+                    return this.saveToLocalStorage(feedbackData);
+                }
+            },
+            
+            // Fallback to localStorage
+            saveToLocalStorage: function(feedbackData) {
+                const storageKey = 'deakinpay_feedback_db';
+                const db = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                feedbackData.id = Date.now();
+                feedbackData.timestamp = new Date().toISOString();
+                feedbackData.status = 'New';
+                db.unshift(feedbackData);
+                localStorage.setItem(storageKey, JSON.stringify(db));
+                console.log('Feedback saved to localStorage:', feedbackData.id);
+                return feedbackData.id;
+            },
+            
+            // Get all feedback from API
+            getAllFeedback: async function() {
+                try {
+                    console.log('Fetching feedback from API...');
+                    const response = await fetch('/api/feedback');
+                    
+                    if (!response.ok) {
+                        throw new Error('API response not ok');
+                    }
+                    
+                    const feedback = await response.json();
+                    console.log('Feedback fetched from API:', feedback.length, 'items');
+                    return feedback;
+                } catch (error) {
+                    console.error('API error, using localStorage fallback:', error);
+                    // Fallback to localStorage
+                    const storageKey = 'deakinpay_feedback_db';
+                    const feedback = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    console.log('Feedback fetched from localStorage:', feedback.length, 'items');
+                    return feedback;
+                }
+            },
+            
+            // Update feedback status via API
+            updateStatus: async function(id, status) {
+                try {
+                    console.log('Updating feedback status:', id, status);
+                    const response = await fetch(`/api/feedback/${id}/status`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ status })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('API response not ok');
+                    }
+                    
+                    console.log('Feedback status updated successfully');
+                    return true;
+                } catch (error) {
+                    console.error('API error:', error);
+                    // Update in localStorage as fallback
+                    return this.updateStatusInLocalStorage(id, status);
+                }
+            },
+            
+            // Update status in localStorage fallback
+            updateStatusInLocalStorage: function(id, status) {
+                const storageKey = 'deakinpay_feedback_db';
+                const db = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                const feedback = db.find(item => item.id == id);
+                if (feedback) {
+                    feedback.status = status;
+                    localStorage.setItem(storageKey, JSON.stringify(db));
+                    return true;
+                }
+                return false;
+            },
+            
+            // Delete feedback via API
+            deleteFeedback: async function(id) {
+                try {
+                    console.log('Deleting feedback:', id);
+                    const response = await fetch(`/api/feedback/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('API response not ok');
+                    }
+                    
+                    console.log('Feedback deleted successfully');
+                    return true;
+                } catch (error) {
+                    console.error('API error:', error);
+                    // Delete from localStorage as fallback
+                    return this.deleteFromLocalStorage(id);
+                }
+            },
+            
+            // Delete from localStorage fallback
+            deleteFromLocalStorage: function(id) {
+                const storageKey = 'deakinpay_feedback_db';
+                const db = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                const filteredDb = db.filter(item => item.id != id);
+                localStorage.setItem(storageKey, JSON.stringify(filteredDb));
+                return true;
+            },
+            
+            // Get statistics
+            getStats: async function() {
+                const feedback = await this.getAllFeedback();
+                return {
+                    total: feedback.length,
+                    new: feedback.filter(item => item.status === 'New').length,
+                    reviewed: feedback.filter(item => item.status === 'Reviewed').length,
+                    responded: feedback.filter(item => item.status === 'Responded').length
+                };
+            }
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DeakinPay Index Page Loaded');
+            
+            // Check if user is admin (simple password protection)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                showAdminPanel();
+            }
+
+            // Update navbar based on login status
+            updateNavbarForLogin();
+            
+            // Initialize fee calculator
+            calculateFees();
+            
+            // Initialize iPhone animation
+            initiPhoneAnimation();
+        });
+
+        function updateNavbarForLogin() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (auth.isLoggedIn()) {
+                const user = auth.getCurrentUser();
+                if (user) {
+                    loginBtn.innerHTML = `<i class="fas fa-user me-2"></i> ${user.name}`;
+                    loginBtn.classList.remove('btn-outline-light');
+                    loginBtn.classList.add('btn-light', 'text-dark');
+                }
+            }
+        }
+
+        // Check login status and show payment history or login prompt
+        function showPaymentHistory() {
+            if (auth.isLoggedIn()) {
+                // If logged in, redirect to login.html which will show the payment history
+                window.location.href = 'login.html';
+            } else {
+                // Show login required modal
+                const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+                loginRequiredModal.show();
+            }
+        }
+
+        // Interactive form functionality
+        document.querySelectorAll('.form-field input, .form-field textarea').forEach(el => {
+            el.addEventListener('focus', function() {
+                this.parentElement.parentElement.classList.add('active');
+            });
+            el.addEventListener('blur', function() {
+                if(!this.value) {
+                    this.parentElement.parentElement.classList.remove('active');
                 }
             });
-            // Form submission
-            document.getElementById('innovativeFeedbackForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+        });
+
+        // Character counter for message textarea
+        document.getElementById('feedbackMessage').addEventListener('input', function() {
+            const counter = document.getElementById('charCount');
+            counter.textContent = this.value.length;
+            // Update progress
+            const progress = this.parentElement.querySelector('.field-progress');
+            progress.style.width = `${Math.min(this.value.length / 500 * 100, 100)}%`;
+        });
+
+        // Form submission
+        document.getElementById('innovativeFeedbackForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const feedbackData = {
+                name: document.getElementById('feedbackName').value,
+                email: document.getElementById('feedbackEmail').value,
+                subject: document.getElementById('feedbackSubject').value,
+                message: document.getElementById('feedbackMessage').value,
+                wants_response: document.getElementById('innovativeResponseCheck').checked
+            };
+            
+            // Validate required fields
+            if (!feedbackData.name || !feedbackData.email || !feedbackData.subject || !feedbackData.message) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.btn-feedback-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Save to database
+                const feedbackId = await feedbackDatabase.saveFeedback(feedbackData);
+                console.log('Feedback saved with ID:', feedbackId);
+                
                 // Show success animation
                 document.querySelector('.feedback-success-modal').classList.add('show');
+                
                 // Reset form
                 this.reset();
                 document.querySelectorAll('.form-field').forEach(field => {
                     field.classList.remove('active');
                 });
-            });
-            // Close success modal
-            document.querySelector('.feedback-success-modal button').addEventListener('click', function() {
-                document.querySelector('.feedback-success-modal').classList.remove('show');
-            });
-        </script>
-        <!-- Innovative Contact Section -->
-        <section class="contact-section py-4" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
-            <div class="container">
-                <div class="contact-card-wrapper position-relative">
-                    <!-- Floating contact elements -->
-                    <div class="floating-contact-icon" style="top: -20px; left: 5%; animation-delay: 0s;">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="floating-contact-icon" style="top: 30%; right: 8%; animation-delay: 0.3s;">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="floating-contact-icon" style="bottom: 10%; left: 15%; animation-delay: 0.6s;">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-card bg-white p-4 rounded-3 shadow-sm position-relative overflow-hidden">
-                        <!-- Animated border effect -->
-                        <div class="contact-border-animation"></div>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.open('https://maps.app.goo.gl/Nbs2eTmn3ZYMGaLi8?g_st=com.google.maps.preview.copy')">
-                                    <div class="icon-wrapper bg-danger bg-opacity-10 text-danger mb-3">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <h4 class="h6 mb-2">Campus Location</h4>
-                                    <p class="small mb-1">Deakin University</p>
-                                    <p class="small">221 Burwood Hwy, VIC 3125</p>
-                                    <div class="mt-2">
-                                        <span class="badge bg-danger bg-opacity-10 text-danger">Click to open map</span>
-                                    </div>
-                                </div>
+                document.getElementById('charCount').textContent = '0';
+                
+            } catch (error) {
+                console.error('Error saving feedback:', error);
+                alert('Error saving feedback. Please try again.');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        function closeFeedbackSuccess() {
+            document.querySelector('.feedback-success-modal').classList.remove('show');
+        }
+
+        // Admin Panel Functions
+        async function showAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'block';
+            await refreshAdminData();
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        async function refreshAdminData() {
+            try {
+                const feedback = await feedbackDatabase.getAllFeedback();
+                const stats = await feedbackDatabase.getStats();
+                
+                // Update statistics
+                document.getElementById('statTotal').textContent = stats.total;
+                document.getElementById('statNew').textContent = stats.new;
+                document.getElementById('statReviewed').textContent = stats.reviewed;
+                document.getElementById('statResponded').textContent = stats.responded;
+                
+                // Update table
+                const tableBody = document.getElementById('feedbackTableBody');
+                const noDataMessage = document.getElementById('noDataMessage');
+                
+                if (feedback.length === 0) {
+                    tableBody.innerHTML = '';
+                    noDataMessage.style.display = 'block';
+                    return;
+                }
+                
+                noDataMessage.style.display = 'none';
+                tableBody.innerHTML = feedback.map(item => `
+                    <tr>
+                        <td class="small">${item.id}</td>
+                        <td>${escapeHtml(item.name)}</td>
+                        <td class="small">${escapeHtml(item.email)}</td>
+                        <td>${escapeHtml(item.subject)}</td>
+                        <td class="message-preview" title="${escapeHtml(item.message)}">
+                            ${escapeHtml(item.message.substring(0, 50))}${item.message.length > 50 ? '...' : ''}
+                        </td>
+                        <td>
+                            <span class="badge status-badge-${item.status ? item.status.toLowerCase() : 'new'}">
+                                ${item.status || 'New'}
+                            </span>
+                        </td>
+                        <td class="small">${new Date(item.timestamp || item.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <div class="admin-actions">
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewMessage(${item.id})" title="View Message">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-info" onclick="changeStatus(${item.id})" title="Change Status">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteFeedback(${item.id})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
-                            <div class="col-md-4">
-                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='tel:+61392446333'">
-                                    <div class="icon-wrapper bg-primary bg-opacity-10 text-primary mb-3">
-                                        <i class="fas fa-phone-alt"></i>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error refreshing admin data:', error);
+                alert('Error loading feedback data');
+            }
+        }
+
+        async function viewMessage(id) {
+            try {
+                const feedback = await feedbackDatabase.getAllFeedback();
+                const item = feedback.find(f => f.id == id);
+                
+                if (item) {
+                    // Create modal to show full message
+                    const modalHtml = `
+                        <div class="modal fade" id="messageModal" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Feedback from ${escapeHtml(item.name)}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <h4 class="h6 mb-2">Contact Us</h4>
-                                    <p class="small mb-1">+61 3 9244 6333</p>
-                                    <p class="small">Emergency: 1800 062 579</p>
-                                    <div class="mt-2">
-                                        <span class="badge bg-primary bg-opacity-10 text-primary">Click to call</span>
+                                    <div class="modal-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <strong>Email:</strong> ${escapeHtml(item.email)}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Date:</strong> ${new Date(item.timestamp || item.created_at).toLocaleString()}
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <strong>Subject:</strong> ${escapeHtml(item.subject)}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <strong>Message:</strong>
+                                                <div class="border rounded p-3 mt-2 bg-light">
+                                                    ${escapeHtml(item.message).replace(/\n/g, '<br>')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <strong>Wants Response:</strong> ${item.wants_response ? 'Yes' : 'No'}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="contact-method h-100 p-3 rounded-2" onclick="window.location.href='mailto:deakinpay@deakin.edu.au'">
-                                    <div class="icon-wrapper bg-success bg-opacity-10 text-success mb-3">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
-                                    <h4 class="h6 mb-2">Email Support</h4>
-                                    <p class="small mb-1">deakinpay@deakin.edu.au</p>
-                                    <p class="small">24/7 support</p>
-                                    <div class="mt-2">
-                                        <span class="badge bg-success bg-opacity-10 text-success">Click to email</span>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="working-hours mt-4 pt-3 border-top text-center">
-                            <p class="mb-1"><strong>Working Hours:</strong> Mon-Fri 8:30am-5pm | Sat 10am-2pm</p>
-                            <p class="small text-muted">Closed on Sundays and public holidays</p>
+                    `;
+                    
+                    // Remove existing modal if any
+                    const existingModal = document.getElementById('messageModal');
+                    if (existingModal) {
+                        existingModal.remove();
+                    }
+                    
+                    // Add new modal and show it
+                    document.body.insertAdjacentHTML('beforeend', modalHtml);
+                    const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+                    modal.show();
+                }
+            } catch (error) {
+                console.error('Error viewing message:', error);
+                alert('Error loading message details');
+            }
+        }
+
+        async function changeStatus(id) {
+            const feedback = await feedbackDatabase.getAllFeedback();
+            const item = feedback.find(f => f.id == id);
+            
+            if (item) {
+                const newStatus = prompt('Enter new status (New/Reviewed/Responded):', item.status || 'New');
+                if (newStatus && ['New', 'Reviewed', 'Responded'].includes(newStatus)) {
+                    if (await feedbackDatabase.updateStatus(id, newStatus)) {
+                        await refreshAdminData();
+                        alert('Status updated successfully!');
+                    }
+                } else if (newStatus) {
+                    alert('Invalid status. Please use: New, Reviewed, or Responded');
+                }
+            }
+        }
+
+        async function deleteFeedback(id) {
+            if (confirm('Are you sure you want to delete this feedback entry?')) {
+                if (await feedbackDatabase.deleteFeedback(id)) {
+                    await refreshAdminData();
+                    alert('Feedback deleted successfully!');
+                }
+            }
+        }
+
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Export database function
+        async function exportDatabase() {
+            try {
+                const feedback = await feedbackDatabase.getAllFeedback();
+                const dataStr = JSON.stringify(feedback, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = 'feedback_database.json';
+                link.click();
+            } catch (error) {
+                console.error('Error exporting database:', error);
+                alert('Error exporting data');
+            }
+        }
+
+        // Import database function
+        async function importDatabase(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        // Store in localStorage for now
+                        localStorage.setItem('deakinpay_feedback_db', JSON.stringify(data));
+                        await refreshAdminData();
+                        alert('Database imported successfully!');
+                    } catch (error) {
+                        alert('Error importing database: Invalid file format');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // Fee Configuration
+        const feeRates = {
+            ug: { min: 1200, max: 1800 },      // Undergraduate
+            pg: { min: 1800, max: 2200 },      // Postgraduate
+            research: { min: 2000, max: 2500 }, // Research
+            international: { min: 2500, max: 3000 } // International
+        };
+
+        let currentCourse = 'ug';
+        let currentTrimesters = 1;
+
+        // Select Course Type
+        function selectCourse(cardElement, courseType) {
+            // Update Active Card
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            cardElement.classList.add('active');
+            
+            // Update Current Course
+            currentCourse = courseType;
+            calculateFees();
+        }
+
+        // Update Unit Value Display
+        function updateUnitValue() {
+            document.getElementById('unitValue').textContent = document.getElementById('unitSlider').value;
+            calculateFees();
+        }
+
+        // Select Trimesters
+        function selectTrimesters(buttonElement) {
+            document.querySelectorAll('#trimesterSelector button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            buttonElement.classList.add('active');
+            currentTrimesters = parseInt(buttonElement.dataset.trimesters);
+            calculateFees();
+        }
+
+        // Calculate Fees
+        function calculateFees() {
+            const units = parseInt(document.getElementById('unitSlider').value);
+            const hasScholarship = document.getElementById('scholarshipToggle').checked;
+            
+            // Calculate Base Fee (randomized within range for demo)
+            const rate = feeRates[currentCourse];
+            const unitFee = rate.min + Math.random() * (rate.max - rate.min);
+            const baseFee = unitFee * units;
+            
+            // Apply Trimesters
+            let totalFee = baseFee * currentTrimesters;
+            
+            // Apply Scholarship Discount
+            let discount = 0;
+            if (hasScholarship) {
+                discount = totalFee * 0.1;
+                totalFee *= 0.9;
+            }
+            
+            // Update UI
+            document.getElementById('baseFee').textContent = `$${baseFee.toFixed(0)}`;
+            document.getElementById('trimesterFee').textContent = `×${currentTrimesters}`;
+            document.getElementById('discountAmount').textContent = `$${discount.toFixed(0)}`;
+            document.getElementById('totalFee').textContent = `$${totalFee.toFixed(0)}`;
+            
+            // Update Meter
+            const maxFee = 3000 * 8 * 3; // Maximum possible fee
+            const meterPercent = Math.min(100, (totalFee / maxFee) * 100);
+            const meter = document.getElementById('feeMeter');
+            meter.style.width = `${meterPercent}%`;
+            
+            // Update Meter Color Based on Amount
+            if (totalFee > 20000) {
+                meter.style.background = 'linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%)';
+            } else if (totalFee > 10000) {
+                meter.style.background = 'linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%)';
+            } else {
+                meter.style.background = 'linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%)';
+            }
+            
+            // Show/Hide Discount Row
+            document.getElementById('discountRow').style.display = hasScholarship ? 'flex' : 'none';
+        }
+
+        // Save Estimate (Demo Function)
+        function saveEstimate() {
+            alert('Estimate saved! (This would generate a PDF in production)');
+        }
+
+        // iPhone Animation Controller
+        function initiPhoneAnimation() {
+            let currentScreen = 'lock';
+            
+            // Show initial screen
+            showScreen('lock');
+            
+            // Auto-cycle every 3 seconds
+            setInterval(function() {
+                switch(currentScreen) {
+                    case 'lock':
+                        showScreen('payment');
+                        break;
+                    case 'payment':
+                        showScreen('success');
+                        break;
+                    case 'success':
+                        showScreen('lock');
+                        break;
+                }
+            }, 3000);
+            
+            function showScreen(screenName) {
+                // Hide all screens
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                
+                // Show the requested screen
+                const screenElement = document.querySelector(`.${screenName}-screen`);
+                if (screenElement) {
+                    screenElement.classList.add('active');
+                    currentScreen = screenName;
+                }
+            }
+        }
+
+        // Add admin panel styles
+        const adminStyles = document.createElement('style');
+        adminStyles.textContent = `
+            .admin-panel {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                z-index: 9999;
+                color: white;
+                overflow-y: auto;
+            }
+
+            .admin-header {
+                background: #000;
+                padding: 1rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 2px solid #00A3E1;
+            }
+
+            .admin-content {
+                padding: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+                border-radius: 10px;
+                text-align: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+
+            .stat-card i {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .stat-card h4 {
+                font-size: 2.5rem;
+                margin: 0.5rem 0;
+            }
+
+            .stat-card p {
+                margin: 0;
+                font-weight: 600;
+            }
+
+            .table-container {
+                background: white;
+                border-radius: 10px;
+                padding: 1.5rem;
+                color: #333;
+            }
+
+            .table-header {
+                border-bottom: 2px solid #dee2e6;
+                padding-bottom: 1rem;
+            }
+
+            #feedbackTable {
+                margin-bottom: 0;
+            }
+
+            #feedbackTable th {
+                border-top: none;
+                font-weight: 600;
+                background: #f8f9fa;
+            }
+
+            .status-badge-new {
+                background: #ffc107;
+                color: #000;
+            }
+
+            .status-badge-reviewed {
+                background: #17a2b8;
+                color: #fff;
+            }
+
+            .status-badge-responded {
+                background: #28a745;
+                color: #fff;
+            }
+
+            .admin-actions {
+                display: flex;
+                gap: 5px;
+            }
+
+            .admin-actions .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .admin-access-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+
+            .admin-access-btn .btn {
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255,255,255,0.9);
+                backdrop-filter: blur(10px);
+            }
+
+            .message-preview {
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            @media (max-width: 768px) {
+                .admin-content {
+                    padding: 1rem;
+                }
+                
+                .admin-header {
+                    padding: 1rem;
+                }
+                
+                .stat-card {
+                    padding: 1rem;
+                }
+                
+                .stat-card h4 {
+                    font-size: 2rem;
+                }
+                
+                .table-responsive {
+                    font-size: 0.8rem;
+                }
+                
+                .admin-actions {
+                    flex-direction: column;
+                }
+            }
+        `;
+        document.head.appendChild(adminStyles);
+     
+    // CRITICAL FIX: Debug and test functionality
+    console.log('🚀 DeakinPay Index Page Loaded - Debug Mode');
+    
+    // Test if server is running
+    fetch('/api/health')
+        .then(response => response.json())
+        .then(data => {
+            console.log('✅ Server connection:', data);
+        })
+        .catch(error => {
+            console.error('❌ Server connection failed:', error);
+            alert('⚠️ Server not running! Run: npm start in terminal');
+        });
+
+    // Fix for feedback form - make sure it's working
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ DOM Loaded - Initializing features');
+        
+        // Test feedback system
+        const feedbackForm = document.getElementById('innovativeFeedbackForm');
+        if (feedbackForm) {
+            console.log('✅ Feedback form found');
+            feedbackForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('📝 Feedback form submitted');
+                
+                const formData = {
+                    name: document.getElementById('feedbackName').value,
+                    email: document.getElementById('feedbackEmail').value,
+                    subject: document.getElementById('feedbackSubject').value,
+                    message: document.getElementById('feedbackMessage').value,
+                    wants_response: document.getElementById('innovativeResponseCheck').checked
+                };
+                
+                console.log('📤 Sending feedback:', formData);
+                
+                // Send to API
+                fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('✅ Feedback saved:', data);
+                    alert('✅ Feedback submitted successfully!');
+                    feedbackForm.reset();
+                })
+                .catch(error => {
+                    console.error('❌ Feedback error:', error);
+                    alert('⚠️ Feedback failed, but we saved it locally');
+                });
+            });
+        } else {
+            console.error('❌ Feedback form not found!');
+        }
+
+        // Test user data display
+        updateNavbarForLogin();
+        
+        // Initialize calculator
+        calculateFees();
+    });
+
+    // Enhanced navbar update function
+    function updateNavbarForLogin() {
+        const loginBtn = document.getElementById('loginBtn');
+        const user = auth.getCurrentUser();
+        
+        console.log('👤 Current user:', user);
+        
+        if (user) {
+            loginBtn.innerHTML = `<i class="fas fa-user me-2"></i> ${user.name}`;
+            loginBtn.classList.remove('btn-outline-light');
+            loginBtn.classList.add('btn-light', 'text-dark');
+            console.log('✅ Navbar updated for logged in user');
+        } else {
+            console.log('ℹ️ No user logged in');
+        }
+    }
+
+    // Test function to check all features
+    function testAllFeatures() {
+        console.log('🧪 Testing all features...');
+        
+        // Test 1: Check if user data exists
+        const user = auth.getCurrentUser();
+        console.log('👤 User data test:', user ? 'PASS' : 'FAIL', user);
+        
+        // Test 2: Check if feedback form exists
+        const feedbackForm = document.getElementById('innovativeFeedbackForm');
+        console.log('📝 Feedback form test:', feedbackForm ? 'PASS' : 'FAIL');
+        
+        // Test 3: Check if calculator exists
+        const calculator = document.getElementById('course-estimator');
+        console.log('🧮 Calculator test:', calculator ? 'PASS' : 'FAIL');
+        
+        // Test 4: Check API connection
+        fetch('/api/health')
+            .then(r => r.json())
+            .then(data => console.log('🌐 API test:', data.status === 'OK' ? 'PASS' : 'FAIL', data))
+            .catch(() => console.log('🌐 API test: FAIL - Server not running'));
+    }
+
+    // Run tests after page loads
+    setTimeout(testAllFeatures, 1000);
+
+    // Feedback Display System
+async function loadRecentFeedback() {
+    try {
+        console.log('📝 Loading recent feedback...');
+        
+        const response = await fetch('/api/feedback/recent');
+        const feedback = await response.json();
+        
+        const container = document.getElementById('feedbackDisplayContainer');
+        
+        if (!feedback || feedback.length === 0) {
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="no-feedback">
+                        <i class="fas fa-comment-slash"></i>
+                        <h4>No Feedback Yet</h4>
+                        <p>Be the first to share your thoughts about DeakinPay!</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = feedback.map(item => `
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div class="feedback-user">
+                            <div class="feedback-name">${escapeHtml(item.name)}</div>
+                            <div class="feedback-email">${escapeHtml(item.email)}</div>
                         </div>
+                        <div class="feedback-date">${formatDate(item.created_at)}</div>
+                    </div>
+                    <div class="feedback-subject">${escapeHtml(item.subject)}</div>
+                    <div class="feedback-message">${escapeHtml(truncateText(item.message, 120))}</div>
+                    <div class="feedback-meta">
+                        <span class="feedback-response">
+                            <i class="fas fa-reply me-1"></i>Response requested
+                        </span>
                     </div>
                 </div>
             </div>
-        </section>
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Globe Animation JS -->
-    <script src="globe.js"></script>
+        `).join('');
+        
+        console.log(`✅ Loaded ${feedback.length} feedback entries`);
+        
+    } catch (error) {
+        console.error('❌ Error loading feedback:', error);
+        document.getElementById('feedbackDisplayContainer').innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Unable to load feedback. Please try again later.
+                </div>
+            </div>
+        `;
+    }
+}
+
+async function loadAllFeedback() {
+    try {
+        const response = await fetch('/api/feedback');
+        const feedback = await response.json();
+        
+        const container = document.getElementById('allFeedbackContainer');
+        
+        if (!feedback || feedback.length === 0) {
+            container.innerHTML = '<div class="text-center text-muted py-4">No feedback available.</div>';
+        } else {
+            container.innerHTML = feedback.map(item => `
+                <div class="feedback-card mb-3">
+                    <div class="feedback-header">
+                        <div class="feedback-user">
+                            <div class="feedback-name">${escapeHtml(item.name)}</div>
+                            <div class="feedback-email">${escapeHtml(item.email)}</div>
+                        </div>
+                        <div class="feedback-date">${formatDate(item.created_at)}</div>
+                    </div>
+                    <div class="feedback-subject">${escapeHtml(item.subject)}</div>
+                    <div class="feedback-message">${escapeHtml(item.message)}</div>
+                    <div class="feedback-meta">
+                        <span class="feedback-response">
+                            ${item.wants_response ? '<i class="fas fa-reply me-1"></i>Response requested' : '<i class="fas fa-times me-1"></i>No response needed'}
+                        </span>
+                        <span class="badge bg-${getStatusColor(item.status)}">${item.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('allFeedbackModal'));
+        modal.show();
+        
+    } catch (error) {
+        console.error('Error loading all feedback:', error);
+        document.getElementById('allFeedbackContainer').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Error loading feedback. Please try again.
+            </div>
+        `;
+    }
+}
+
+// Utility functions
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-AU', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+}
+
+function truncateText(text, maxLength) {
+    if (text.length <= maxLength) return text;
+    return text.substr(0, maxLength) + '...';
+}
+
+function getStatusColor(status) {
+    switch(status?.toLowerCase()) {
+        case 'new': return 'warning';
+        case 'reviewed': return 'info';
+        case 'responded': return 'success';
+        default: return 'secondary';
+    }
+}
+
+// Enhanced feedback submission
+async function submitFeedback(feedbackData) {
+    try {
+        console.log('📤 Submitting feedback:', feedbackData);
+        
+        const response = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(feedbackData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            console.log('✅ Feedback saved with ID:', result.id);
+            
+            // Reload the feedback display
+            setTimeout(loadRecentFeedback, 1000);
+            
+            return true;
+        } else {
+            throw new Error(result.error || 'Failed to save feedback');
+        }
+    } catch (error) {
+        console.error('❌ Error submitting feedback:', error);
+        throw error;
+    }
+}
+
+// Feedback Management System
+let allFeedback = [];
+
+// Show feedback management panel
+function showFeedbackManagement() {
+    document.getElementById('feedbackManagementPanel').style.display = 'block';
+    loadFeedbackManagementData();
+}
+
+// Hide feedback management panel
+function hideFeedbackManagement() {
+    document.getElementById('feedbackManagementPanel').style.display = 'none';
+}
+
+// Load feedback data for management
+async function loadFeedbackManagementData() {
+    try {
+        console.log('📊 Loading feedback management data...');
+        
+        // Load statistics
+        const statsResponse = await fetch('/api/feedback/stats');
+        const stats = await statsResponse.json();
+        
+        // Update statistics
+        document.getElementById('totalFeedback').textContent = stats.total;
+        document.getElementById('newFeedback').textContent = stats.new;
+        document.getElementById('reviewedFeedback').textContent = stats.reviewed;
+        document.getElementById('respondedFeedback').textContent = stats.responded;
+        
+        // Load all feedback
+        const feedbackResponse = await fetch('/api/feedback/all');
+        allFeedback = await feedbackResponse.json();
+        
+        updateFeedbackTable(allFeedback);
+        
+        console.log(`✅ Loaded ${allFeedback.length} feedback entries for management`);
+        
+    } catch (error) {
+        console.error('❌ Error loading feedback management data:', error);
+        alert('Error loading feedback data. Please check console.');
+    }
+}
+
+// Update feedback table
+function updateFeedbackTable(feedback) {
+    const tableBody = document.getElementById('feedbackManagementBody');
+    const noDataMessage = document.getElementById('noFeedbackMessage');
+    
+    if (!feedback || feedback.length === 0) {
+        tableBody.innerHTML = '';
+        noDataMessage.style.display = 'block';
+        return;
+    }
+    
+    noDataMessage.style.display = 'none';
+    
+    tableBody.innerHTML = feedback.map(item => `
+        <tr class="feedback-row" onclick="viewFeedbackDetail(${item.id})">
+            <td class="small fw-bold">#${item.id}</td>
+            <td>
+                <div class="fw-medium">${escapeHtml(item.name)}</div>
+            </td>
+            <td class="small">${escapeHtml(item.email)}</td>
+            <td>
+                <div class="fw-medium">${escapeHtml(item.subject)}</div>
+            </td>
+            <td class="message-preview" title="${escapeHtml(item.message)}">
+                ${escapeHtml(truncateText(item.message, 50))}
+            </td>
+            <td>
+                <span class="${item.wants_response ? 'response-badge-yes' : 'response-badge-no'}">
+                    ${item.wants_response ? 'Yes' : 'No'}
+                </span>
+            </td>
+            <td>
+                <span class="status-badge-${item.status ? item.status.toLowerCase() : 'new'}">
+                    ${item.status || 'New'}
+                </span>
+            </td>
+            <td class="small">${formatDate(item.created_at)}</td>
+            <td>
+                <div class="management-actions">
+                    <button class="btn btn-sm btn-outline-primary" onclick="event.stopPropagation(); viewFeedbackDetail(${item.id})" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); changeFeedbackStatus(${item.id})" title="Change Status">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteFeedback(${item.id})" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+    </script>
 </body>
 </html>

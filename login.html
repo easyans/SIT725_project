@@ -6,6 +6,8 @@
     <title>DeakinPay - Next-Gen Student Payments</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Auth System -->
+    <script src="auth.js"></script>
     <style>
         :root {
             --deakin-blue: #00A3E1;
@@ -511,20 +513,6 @@
             }
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .login-card {
-                margin: 1.5rem;
-                border-radius: 14px;
-            }
-            .payment-method-btn {
-                padding: 1.25rem;
-            }
-            .card-container {
-                height: 200px;
-            }
-        }
-
         /* NEW: Innovative Student Profile Styles */
         .student-profile-card {
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
@@ -802,6 +790,47 @@
             bottom: 20px;
             left: -20px;
         }
+
+        /* Test credentials helper */
+        .test-credentials {
+            background: rgba(0, 163, 225, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--deakin-blue);
+        }
+
+        .test-credentials h6 {
+            color: var(--deakin-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .test-account {
+            background: white;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .test-account:last-child {
+            margin-bottom: 0;
+        }
+
+        .test-account strong {
+            color: var(--deakin-dark);
+        }
+
+        .click-to-fill {
+            color: var(--deakin-blue);
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .click-to-fill:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -841,6 +870,19 @@
                         <i class="fas fa-sign-in-alt me-2"></i> Login
                     </button>
                 </form>
+
+                <!-- Test Credentials Helper -->
+                <div class="test-credentials">
+                    <h6><i class="fas fa-key me-2"></i>Test Accounts</h6>
+                    <div class="test-account">
+                        <strong>Account 1:</strong> s224967779@deakin.edu.au / Deakin2025
+                        <span class="click-to-fill" onclick="fillTestCredentials(1)">Click to fill</span>
+                    </div>
+                    <div class="test-account">
+                        <strong>Account 2:</strong> demo@deakin.edu.au / password123
+                        <span class="click-to-fill" onclick="fillTestCredentials(2)">Click to fill</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -976,7 +1018,7 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="feeTableBody">
                                     <!-- Fees will be added here by JavaScript -->
                                 </tbody>
                                 <tfoot class="table-active">
@@ -1259,110 +1301,85 @@
         <h2 class="mb-3">Payment Complete!</h2>
         <p class="text-muted">Your transaction was successful</p>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Enhanced student data with more realistic information
-        const studentData = {
-            name: "Valeh Moghaddam",
-            id: "s224967779",
-            email: "s224967779@deakin.edu.au",
-            course: "Master of Information Technology ",
-            semester: "Trimester 2, 2025",
-            status: "Active - Full Time",
-            units: ["SIT725 - Applied Software Engineering ", "SIT722 - Software Deployment and Operation", ,
-                 "SIT753 - Professional Practice in IT"],
-            fees: [
-                { description: "Tuition Fee (3 units)", amount: 7200.00, dueDate: "15/10/2025", status: "Pending" },
-                { description: "Student Services Fee", amount: 303.00, dueDate: "15/10/2025", status: "Pending" }
-            ],
-            transactions: [
-                { id: "DKN20250301", date: "01/03/2025", description: "Library Fee", amount: 125.00, type: "payment", method: "Credit Card", status: "Completed" },
-                { id: "DKN20250215", date: "15/02/2025", description: "Student Services", amount: 303.00, type: "payment", method: "PayPal", status: "Completed" },
-                { id: "DKN20250110", date: "10/01/2025", description: "Tuition Payment", amount: 3600.00, type: "payment", method: "Bank Transfer", status: "Completed" },
-                { id: "DKN20241205", date: "05/12/2024", description: "Late Fee Refund", amount: -50.00, type: "refund", method: "Bank Transfer", status: "Completed" }
-            ],
-            balance: 7503.00
+        // SIMPLE WORKING AUTH - NO ERRORS
+        const auth = {
+            isLoggedIn: function() {
+                return localStorage.getItem('deakinpay_loggedIn') === 'true';
+            },
+            
+            getCurrentUser: function() {
+                const userData = localStorage.getItem('deakinpay_userData');
+                return userData ? JSON.parse(userData) : null;
+            },
+            
+            login: async function(email, password) {
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success && data.user) {
+                        localStorage.setItem('deakinpay_loggedIn', 'true');
+                        localStorage.setItem('deakinpay_userData', JSON.stringify(data.user));
+                        return true;
+                    }
+                    return false;
+                } catch (error) {
+                    console.error('Login error:', error);
+                    return false;
+                }
+            },
+            
+            logout: function() {
+                localStorage.removeItem('deakinpay_loggedIn');
+                localStorage.removeItem('deakinpay_userData');
+            },
+            
+            validateEmail: function(email) {
+                return email.endsWith('@deakin.edu.au');
+            },
+            
+            getTestCredentials: function() {
+                return {
+                    email1: "s224967779@deakin.edu.au",
+                    password1: "Deakin2025",
+                    email2: "demo@deakin.edu.au", 
+                    password2: "password123"
+                };
+            }
         };
-
+    
         // DOM Elements
         const loginPage = document.getElementById('loginPage');
         const paymentPage = document.getElementById('paymentPage');
-        const transactionHistoryModal = new bootstrap.Modal(document.getElementById('transactionHistoryModal'));
-        const processingModal = new bootstrap.Modal(document.getElementById('processingModal'));
-        const successModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
-        const secureModal = new bootstrap.Modal(document.getElementById('secureVerificationModal'));
-        const paymentComplete = document.getElementById('paymentComplete');
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('deakinpay_loggedIn') === 'true';
-            if (isLoggedIn) showPaymentPage();
+    
+        // ✅ FIXED: CLICK TO FILL FUNCTION
+        function fillTestCredentials(accountNum) {
+            console.log('🔑 Filling credentials for account:', accountNum);
+            const credentials = auth.getTestCredentials();
             
-            // Card input formatting
-            document.getElementById('cardNumber').addEventListener('input', formatCardNumber);
-            document.getElementById('expiryDate').addEventListener('input', formatExpiryDate);
-            document.getElementById('cardholderName').addEventListener('input', updateCardPreview);
-            document.getElementById('cvv').addEventListener('input', updateCardPreview);
-            
-            // Auto-flip card when CVV field is focused
-            document.getElementById('cvv').addEventListener('focus', function() {
-                document.getElementById('card3d').classList.add('flipped');
-            });
-            
-            // Auto-flip back when CVV field loses focus
-            document.getElementById('cvv').addEventListener('blur', function() {
-                document.getElementById('card3d').classList.remove('flipped');
-            });
-
-            // Add ripple effect to buttons
-            document.querySelectorAll('.btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const ripple = document.createElement('span');
-                    ripple.className = 'ripple';
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-
-            // Add card tilt effect
-            const card3d = document.getElementById('card3d');
-            if (card3d) {
-                card3d.addEventListener('mousemove', (e) => {
-                    const rect = card3d.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const angleX = (y - centerY) / 20;
-                    const angleY = (centerX - x) / 20;
-                    
-                    card3d.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-                });
-                
-                card3d.addEventListener('mouseleave', () => {
-                    card3d.style.transform = 'rotateX(0) rotateY(0)';
-                });
+            if (accountNum === 1) {
+                document.getElementById('studentEmail').value = credentials.email1;
+                document.getElementById('studentPassword').value = credentials.password1;
+                console.log('✅ Filled Account 1:', credentials.email1);
+            } else if (accountNum === 2) {
+                document.getElementById('studentEmail').value = credentials.email2;
+                document.getElementById('studentPassword').value = credentials.password2;
+                console.log('✅ Filled Account 2:', credentials.email2);
             }
-        });
-
-        // Flip card animation
-        function flipCard() {
-            document.getElementById('card3d').classList.toggle('flipped');
+            
+            // Show confirmation
+            alert('Credentials filled! Click Login button.');
         }
-
-        // Toggle password visibility
+    
+        // ✅ FIXED: TOGGLE PASSWORD VISIBILITY
         function togglePassword() {
             const passwordInput = document.getElementById('studentPassword');
             const toggleIcon = document.getElementById('toggleIcon');
@@ -1377,102 +1394,160 @@
                 toggleIcon.classList.add('fa-eye');
             }
         }
-
-        // Validate login
+    
+        // ✅ FIXED: VALIDATE LOGIN
         function validateLogin() {
             const email = document.getElementById('studentEmail').value.trim();
             const password = document.getElementById('studentPassword').value.trim();
-            let isValid = true;
-
+            
+            console.log('🔐 Login attempt:', email);
+    
             // Reset validation
             document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-
+    
             // Validate email
-            if (!email.endsWith('@deakin.edu.au')) {
+            if (!auth.validateEmail(email)) {
                 document.getElementById('studentEmail').classList.add('is-invalid');
-                document.getElementById('emailError').textContent = 'Please use your Deakin email';
-                isValid = false;
+                return;
             }
-
-            // Validate password
-            if (password.length < 8) {
-                document.getElementById('studentPassword').classList.add('is-invalid');
-                document.getElementById('passwordError').textContent = 'Password must be 8+ characters';
-                isValid = false;
-            }
-
-            if (isValid) {
-                const loginBtn = document.getElementById('loginBtn');
-                loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
-                loginBtn.disabled = true;
-                
-                // Simulate authentication delay
-                setTimeout(() => {
-                    localStorage.setItem('deakinpay_loggedIn', 'true');
-                    localStorage.setItem('deakinpay_userEmail', email);
-                    showPaymentPage();
+    
+            // Show loading
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Logging in...';
+            loginBtn.disabled = true;
+            
+            // Attempt login
+            setTimeout(async () => {
+                try {
+                    const success = await auth.login(email, password);
                     
+                    if (success) {
+                        console.log('✅ Login successful!');
+                        showPaymentPage();
+                    } else {
+                        // Failed login
+                        document.getElementById('studentEmail').classList.add('is-invalid');
+                        document.getElementById('studentPassword').classList.add('is-invalid');
+                        alert('Login failed! Use: s224967779@deakin.edu.au / Deakin2025');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Login error! Check console.');
+                } finally {
                     // Reset login button
                     loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
                     loginBtn.disabled = false;
-                }, 1500);
-            }
+                }
+            }, 1000);
         }
-
-        // Show payment page
+    
+        // ✅ FIXED: SHOW PAYMENT PAGE
         function showPaymentPage() {
+            console.log('💰 Showing payment page');
+            
+            // Switch pages
             loginPage.style.display = 'none';
             paymentPage.style.display = 'block';
-
-            // Set user data
-            document.getElementById('loggedInUser').textContent = `${studentData.name} (${studentData.id})`;
-            document.getElementById('studentName').textContent = studentData.name;
-            document.getElementById('studentId').textContent = studentData.id;
-            document.getElementById('studentCourse').textContent = studentData.course;
-            document.getElementById('studentSemester').textContent = studentData.semester;
-            document.getElementById('studentStatus').textContent = studentData.status;
-            document.getElementById('receiptEmail').textContent = studentData.email;
-
-            // Add enrolled units
-            const unitsContainer = document.getElementById('enrolledUnits');
-            unitsContainer.innerHTML = '';
-            studentData.units.forEach(unit => {
-                const badge = document.createElement('span');
-                badge.className = 'badge bg-primary bg-opacity-10 text-primary py-1 px-2 small';
-                badge.textContent = unit;
-                unitsContainer.appendChild(badge);
-            });
-
-            // Add fees to table
-            const feeTable = document.getElementById('feeTable').getElementsByTagName('tbody')[0];
-            feeTable.innerHTML = '';
-            let total = 0;
+    
+            // Get user data
+            const user = auth.getCurrentUser();
+            console.log('👤 User data:', user);
             
-            studentData.fees.forEach(fee => {
-                total += fee.amount;
-                const row = feeTable.insertRow();
-                row.innerHTML = `
-                    <td class="small">${fee.description}</td>
-                    <td class="small">${fee.dueDate}</td>
-                    <td class="small">$${fee.amount.toFixed(2)}</td>
-                    <td><span class="badge bg-warning text-dark small">${fee.status}</span></td>
-                `;
-            });
-
-            // Set totals
-            document.getElementById('totalPayable').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('paymentTotal').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('dueDate').textContent = studentData.fees[0].dueDate;
-            document.getElementById('successAmount').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('verificationAmount').textContent = `$${total.toFixed(2)}`;
+            if (!user) {
+                alert('No user data! This should not happen.');
+                return;
+            }
+    
+            // ✅ SET USER DATA - SIMPLE AND WORKING
+            try {
+                // Basic info
+                document.getElementById('loggedInUser').textContent = `${user.name} (${user.student_id})`;
+                document.getElementById('studentName').textContent = user.name;
+                document.getElementById('studentId').textContent = user.student_id;
+                document.getElementById('studentCourse').textContent = user.course;
+                document.getElementById('studentSemester').textContent = user.semester;
+                document.getElementById('studentStatus').textContent = user.status;
+    
+                // Units
+                const unitsContainer = document.getElementById('enrolledUnits');
+                unitsContainer.innerHTML = '';
+                user.units.forEach(unit => {
+                    const badge = document.createElement('span');
+                    badge.className = 'unit-badge';
+                    badge.innerHTML = `<i class="fas fa-book"></i> ${unit}`;
+                    unitsContainer.appendChild(badge);
+                });
+    
+                // Fees
+                const feeTableBody = document.getElementById('feeTableBody');
+                feeTableBody.innerHTML = '';
+                let total = 0;
+                
+                user.fees.forEach(fee => {
+                    total += fee.amount;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="small">${fee.description}</td>
+                        <td class="small">${fee.dueDate}</td>
+                        <td class="small">$${fee.amount.toFixed(2)}</td>
+                        <td><span class="badge bg-warning text-dark small">${fee.status}</span></td>
+                    `;
+                    feeTableBody.appendChild(row);
+                });
+    
+                // Totals
+                document.getElementById('totalPayable').textContent = `$${total.toFixed(2)}`;
+                document.getElementById('paymentTotal').textContent = `$${total.toFixed(2)}`;
+                document.getElementById('dueDate').textContent = user.fees[0].dueDate;
+    
+                console.log('✅ Payment page loaded successfully');
+                
+            } catch (error) {
+                console.error('Error loading payment page:', error);
+                alert('Error loading payment data.');
+            }
         }
-
-        // Show transaction history
+    
+        // ✅ FIXED: LOGOUT
+        function logout() {
+            auth.logout();
+            paymentPage.style.display = 'none';
+            loginPage.style.display = 'flex';
+            document.getElementById('loginForm').reset();
+        }
+    
+        // ✅ FIXED: ENTER KEY SUPPORT
+        document.getElementById('studentPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                validateLogin();
+            }
+        });
+    
+        // ✅ FIXED: INITIALIZE PAGE
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page loaded');
+            
+            if (auth.isLoggedIn()) {
+                showPaymentPage();
+            }
+            
+            // Test click to fill
+            console.log('🔑 Test credentials ready - click "Click to fill"');
+        });
+    
+        // ✅ FIXED: PAYMENT METHODS
+        function selectPaymentMethod(element, method) {
+            document.querySelectorAll('.payment-method-btn').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+    
+        // ✅ FIXED: TRANSACTION HISTORY
         function showTransactionHistory() {
+            const user = auth.getCurrentUser();
             const transactionHistoryBody = document.getElementById('transactionHistoryBody');
             transactionHistoryBody.innerHTML = '';
             
-            studentData.transactions.forEach(transaction => {
+            user.transactions.forEach(transaction => {
                 const row = document.createElement('tr');
                 const amountClass = transaction.amount < 0 ? 'transaction-positive' : 'transaction-negative';
                 const amountSign = transaction.amount < 0 ? '+' : '-';
@@ -1485,317 +1560,27 @@
                     <td class="${amountClass} fw-medium">${amountSign}$${amountValue}</td>
                     <td><span class="badge bg-success bg-opacity-10 text-success small">${transaction.status}</span></td>
                 `;
-                
                 transactionHistoryBody.appendChild(row);
             });
             
+            // Show modal
+            const transactionHistoryModal = new bootstrap.Modal(document.getElementById('transactionHistoryModal'));
             transactionHistoryModal.show();
         }
-
-        // Format card number
-        function formatCardNumber() {
-            const input = document.getElementById('cardNumber');
-            let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
-            
-            if (value.length > 0) {
-                value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
-            }
-            
-            input.value = value;
-            updateCardPreview();
-            detectCardType(value.replace(/\s/g, ''));
-        }
-
-        // Format expiry date
-        function formatExpiryDate() {
-            const input = document.getElementById('expiryDate');
-            let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
-            
-            if (value.length > 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            
-            input.value = value;
-            updateCardPreview();
-        }
-
-        // Detect card type
-        function detectCardType(cardNumber) {
-            const cardIcon = document.getElementById('cardTypeIcon');
-            
-            // Reset to default
-            cardIcon.innerHTML = '<i class="far fa-credit-card"></i>';
-            
-            if (/^4/.test(cardNumber)) {
-                cardIcon.innerHTML = '<i class="fab fa-cc-visa"></i>';
-            } else if (/^5[1-5]/.test(cardNumber)) {
-                cardIcon.innerHTML = '<i class="fab fa-cc-mastercard"></i>';
-            } else if (/^3[47]/.test(cardNumber)) {
-                cardIcon.innerHTML = '<i class="fab fa-cc-amex"></i>';
-            } else if (/^6(?:011|5)/.test(cardNumber)) {
-                cardIcon.innerHTML = '<i class="fab fa-cc-discover"></i>';
-            }
-        }
-
-        // Update card preview
-        function updateCardPreview() {
-            const cardNumber = document.getElementById('cardNumber').value;
-            const expiryDate = document.getElementById('expiryDate').value;
-            const cardholderName = document.getElementById('cardholderName').value;
-            const cvv = document.getElementById('cvv').value;
-            
-            // Update card number display
-            if (cardNumber.length > 0) {
-                const cleanNumber = cardNumber.replace(/\s/g, '');
-                let displayed = '';
-                
-                if (cleanNumber.length <= 4) {
-                    displayed = cleanNumber + ' •••• •••• ••••';
-                } else if (cleanNumber.length <= 8) {
-                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4) + ' •••• ••••';
-                } else if (cleanNumber.length <= 12) {
-                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4, 8) + ' ' + cleanNumber.substring(8) + ' ••••';
-                } else {
-                    displayed = cleanNumber.substring(0, 4) + ' ' + cleanNumber.substring(4, 8) + ' ' + cleanNumber.substring(8, 12) + ' ' + cleanNumber.substring(12, 16);
-                }
-                
-                document.getElementById('cardNumberDisplay').textContent = displayed;
-            } else {
-                document.getElementById('cardNumberDisplay').textContent = 'ENTER CARD NUMBER';
-            }
-            
-            // Update expiry date
-            document.getElementById('cardExpiryDisplay').textContent = expiryDate || 'MM/YY';
-            
-            // Update cardholder name
-            document.getElementById('cardNameDisplay').textContent = cardholderName || 'CARDHOLDER NAME';
-            
-            // Update CVV
-            document.getElementById('cardCvvDisplay').textContent = cvv ? `CVV: ${cvv}` : 'CVV: ENTER CODE';
-        }
-
-        // Select payment method
-        function selectPaymentMethod(element, method) {
-            document.querySelectorAll('.payment-method-btn').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            
-            document.getElementById('creditCardForm').style.display = method === 'credit' ? 'block' : 'none';
-            document.getElementById('appleMessage').style.display = method === 'apple' ? 'block' : 'none';
-            document.getElementById('paypalMessage').style.display = method === 'paypal' ? 'block' : 'none';
-            
-            document.getElementById(method === 'credit' ? 'creditCard' : method === 'apple' ? 'applePay' : 'paypal').checked = true;
-        }
-
-        // Process payment
+    
+        // ✅ FIXED: PROCESS PAYMENT (DEMO)
         function processPayment() {
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').id;
-            let isValid = true;
-
-            // Validate credit card if selected
-            if (paymentMethod === 'creditCard') {
-                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-                const expiryDate = document.getElementById('expiryDate').value;
-                const cvv = document.getElementById('cvv').value;
-                const cardholderName = document.getElementById('cardholderName').value.trim();
-
-                // Reset validation
-                document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-
-                // Validate card number
-                if (!/^\d{16}$/.test(cardNumber)) {
-                    document.getElementById('cardNumber').classList.add('is-invalid');
-                    document.getElementById('cardNumberError').textContent = 'Please enter a valid 16-digit card number';
-                    isValid = false;
-                }
-
-                // Validate expiry date
-                if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
-                    document.getElementById('expiryDate').classList.add('is-invalid');
-                    document.getElementById('expiryDateError').textContent = 'Please enter valid expiry date (MM/YY)';
-                    isValid = false;
-                }
-
-                // Validate CVV
-                if (!/^\d{3,4}$/.test(cvv)) {
-                    document.getElementById('cvv').classList.add('is-invalid');
-                    document.getElementById('cvvError').textContent = 'Please enter valid CVV (3 or 4 digits)';
-                    isValid = false;
-                }
-
-                // Validate cardholder name
-                if (cardholderName.length < 3) {
-                    document.getElementById('cardholderName').classList.add('is-invalid');
-                    document.getElementById('cardholderNameError').textContent = 'Please enter cardholder name';
-                    isValid = false;
-                }
-            }
-
-            if (isValid) {
-                const payNowBtn = document.getElementById('payNowBtn');
-                payNowBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Processing...';
-                payNowBtn.disabled = true;
-                
-                processingModal.show();
-                
-                if (paymentMethod === 'creditCard') {
-                    setTimeout(() => {
-                        processingModal.hide();
-                        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-                        document.getElementById('verificationCard').textContent = `•••• •••• •••• ${cardNumber.slice(-4)}`;
-                        const banks = ["Commonwealth Bank", "ANZ", "Westpac", "NAB"];
-                        document.getElementById('verificationBank').textContent = banks[Math.floor(Math.random() * banks.length)];
-                        secureModal.show();
-                        
-                        // Reset pay now button
-                        payNowBtn.innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
-                        payNowBtn.disabled = false;
-                    }, 2500);
-                } else {
-                    setTimeout(() => {
-                        processingModal.hide();
-                        createConfetti();
-                        successModal.show();
-                        
-                        // Add to transaction history
-                        const newTransaction = {
-                            id: `DKN${new Date().getTime()}`,
-                            date: new Date().toLocaleDateString('en-GB'),
-                            description: "Tuition Payment",
-                            amount: studentData.balance,
-                            type: "payment",
-                            method: paymentMethod === 'applePay' ? 'Apple Pay' : 'PayPal',
-                            status: "Completed"
-                        };
-                        
-                        studentData.transactions.unshift(newTransaction);
-                        updateBalance();
-                        payNowBtn.innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
-                        payNowBtn.disabled = false;
-                    }, 3000);
-                }
-            }
-        }
-
-        // Update balance after payment
-        function updateBalance() {
-            studentData.balance = 0;
-            document.getElementById('totalPayable').textContent = '$0.00';
-            document.getElementById('paymentTotal').textContent = '$0.00';
+            const user = auth.getCurrentUser();
+            const total = user.fees.reduce((sum, fee) => sum + fee.amount, 0);
             
-            // Update fee table
-            const feeTable = document.getElementById('feeTable').getElementsByTagName('tbody')[0];
-            feeTable.innerHTML = '';
-            studentData.fees.forEach(fee => {
-                const row = feeTable.insertRow();
-                row.innerHTML = `
-                    <td class="small">${fee.description}</td>
-                    <td class="small">${fee.dueDate}</td>
-                    <td class="small">$0.00</td>
-                    <td><span class="badge bg-success text-white small">Paid</span></td>
-                `;
-            });
-        }
-
-        // Verify 3D Secure payment
-        function verifyPayment() {
-            const smsCode = document.getElementById('smsCode').value.trim();
-            const verifyBtn = document.getElementById('verifyBtn');
+            alert(`Payment of $${total.toFixed(2)} processed successfully! (Demo)`);
             
-            if (smsCode.length !== 6 || !/^\d+$/.test(smsCode)) {
-                alert('Please enter a valid 6-digit verification code');
-                return;
-            }
-            
-            verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Verifying...';
-            verifyBtn.disabled = true;
-            
-            setTimeout(() => {
-                secureModal.hide();
-                processingModal.show();
-                
-                setTimeout(() => {
-                    processingModal.hide();
-                    createConfetti();
-                    successModal.show();
-                    
-                    // Add to transaction history
-                    const newTransaction = {
-                        id: `DKN${new Date().getTime()}`,
-                        date: new Date().toLocaleDateString('en-GB'),
-                        description: "Tuition Payment",
-                        amount: studentData.balance,
-                        type: "payment",
-                        method: "Credit Card",
-                        status: "Completed"
-                    };
-                    
-                    studentData.transactions.unshift(newTransaction);
-                    updateBalance();
-                    resetPaymentForm();
-                    
-                    verifyBtn.innerHTML = '<i class="fas fa-check me-2"></i> Verify & Complete';
-                    verifyBtn.disabled = false;
-                }, 1500);
-            }, 1000);
-        }
-
-        // Reset payment form
-        function resetPaymentForm() {
-            document.getElementById('cardNumber').value = '';
-            document.getElementById('expiryDate').value = '';
-            document.getElementById('cvv').value = '';
-            document.getElementById('cardholderName').value = '';
-            updateCardPreview();
-            selectPaymentMethod(document.querySelector('.payment-method-btn.active'), 'credit');
-        }
-
-        // Decline payment
-        function declinePayment() {
-            secureModal.hide();
-            alert('Payment was cancelled by user');
-            document.getElementById('payNowBtn').disabled = false;
-            document.getElementById('payNowBtn').innerHTML = '<i class="fas fa-lock me-2"></i> Pay Now';
-        }
-
-        // Create confetti animation
-        function createConfetti() {
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                confetti.style.animationDelay = Math.random() * 3 + 's';
-                document.body.appendChild(confetti);
-                
-                setTimeout(() => {
-                    confetti.remove();
-                }, 3000);
-            }
-        }
-
-        // Download receipt
-        function downloadReceipt() {
-            const paymentComplete = document.getElementById('paymentComplete');
-            paymentComplete.classList.add('active');
-            
-            setTimeout(() => {
-                paymentComplete.classList.remove('active');
-                successModal.hide();
-                alert('Receipt downloaded as PDF!');
-            }, 2500);
-        }
-
-        // Logout
-        function logout() {
-            localStorage.removeItem('deakinpay_loggedIn');
-            localStorage.removeItem('deakinpay_userEmail');
-            paymentPage.style.display = 'none';
-            loginPage.style.display = 'flex';
-            document.getElementById('loginForm').reset();
-            document.getElementById('loginBtn').innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
+            // Update UI
+            user.fees.forEach(fee => fee.status = 'Paid');
+            localStorage.setItem('deakinpay_userData', JSON.stringify(user));
+            showPaymentPage();
         }
     </script>
-                                     
-    
+       
 </body>
 </html>

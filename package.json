@@ -1,0 +1,18 @@
+{
+  "name": "deakinpay",
+  "version": "1.0.0",
+  "description": "Deakin Payment System with Real Database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "init-db": "node -e \"require('./database.js')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
